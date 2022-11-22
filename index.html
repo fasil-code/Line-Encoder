@@ -1,0 +1,232 @@
+ <!DOCTYPE html>
+  <html lang="en">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Line Encoder</title>
+  </head>
+  
+    
+  </style>
+  <body>
+    <div class="one">
+      <h1>Line Encoding and Scrambling</h1>
+    </div>
+ 
+
+
+
+<div class="first_1">
+  <div  class="first__2">
+
+
+  <input type="text" class ="zo" id="fname" name="fname" placeholder="Enter bitstream data">
+  <button class="button1" type="button" onclick="getInputValue(),trace()">Plot Graph</button><br>
+  <input id="ut1" type="text" class="zo"  name="fname" placeholder="Enter min zeroes">
+  <button  class="button1" type="button" onclick="generate()">Generate Random</button><br>
+ <button style="background: #FF4136" class="button1" type="button"  onClick="window.location.reload()">Reset</button>
+</div>
+
+
+
+
+<div class="first__2">
+  <span class="span1"> Encoding Scheme :</span>
+  <select class="schee" id="scheme">
+    <option  value="1">UNIPOLAR NRZ</option>
+    <option value='2'>POLAR NRL</option>
+    <option value='3'>POLAR NRI</option>
+    <option value='4'>Manchester</option>
+    <option value='5'>Differential Manchester</option>
+    <option value='6'>AMI(without Scrambling)</option>
+    <option value='7'>AMI (B8ZS)</option>
+    <option value='8'>AMI (HDB3)</option>
+  </select>
+
+
+</div>
+  
+</div>
+    <div id="tester" style="width:100%;height:100%;border:2px solid black"></div>
+    <div id="container">
+      <h2>Longest palindromic SubString in bitstream (Manachers Algorithm)</h2> 
+      <div class="text" style="font-weight:100">
+
+// Time complexity :O(n) <br>
+// space complexity :O(n); <br>
+
+        <br>
+        var longestPalindrome = function (s) {<br>
+          if (!s || !s.length) return "";<br>
+          let str = "#" + s.split("").join("#") + "#";<br>
+          let C = 0,<br>
+            max = 0,<br>
+            P = new Array(str.length).fill(0);<br>
+            <br>
+          for (let i = 0; i < str.length; i++) {<br>
+            if (i > max) {<br>
+              P[i] = 1;<br>
+            } else {<br>
+              let j = C - i + C < 0 ? 0 : C - i + C;<br>
+              P[i] = Math.min(P[j], max - i < 0 ? 1 : max - i);<br>
+            }<br>
+            let lo = i - P[i],<br>
+              hi = i + P[i];<br>
+            while (lo >= 0 && hi < str.length && str[lo] === str[hi]) {<br>
+              lo--, hi++;<br>
+            }<br>
+            P[i] = hi - i;<br>
+            <br>
+      
+            if (i + P[i] > max) {<br>
+              max = i + P[i];<br>
+              C = i;<br>
+            }<br>
+          }<br>
+          let len = Math.max(...P);<br>
+          let index = P.indexOf(len);<br>
+          let res = str.substring(index - len + 1, index + len);<br>
+          return res.split("#").join("");<br>
+        };<br>
+    
+          </div>
+          <h2>OUTPUT: </h2>
+      <h3 id="dis"></h3> 
+      
+ 
+     
+    </div>
+
+
+    <div id="container">
+      <h2>Longest palindromic Subsequence in bitstream</h2> 
+      <div class="text">
+        // Time complexity :O(n*n) <br>
+        // space complexity :O(n*n); <br>
+<br>
+        function reverseString(str) {<br>
+          const arrayStrings = str.split("");<br>
+          const reverseArray = arrayStrings.reverse();<br>
+          const joinArray = reverseArray.join("");<br>
+          return joinArray;<br>
+        }<br>
+        <br>
+        function LCS(S) {<br>
+          let n = S.length;<br>
+          let s1 = S;<br>
+          let s2 = S.split("").reverse().join("");<br>
+          <br>
+          let dp = new Array(n + 1);<br>
+          for (let i = 0; i < dp.length; i++) {<br>
+            dp[i] = new Array(n + 1);<br>
+          }<br>
+          <br>
+          for (let i = 0; i < n + 1; i++) {<br>
+            for (let j = 0; j < n + 1; j++) {<br>
+              if (i == 0 || j == 0) {<br>
+                dp[i][j] = 0;<br>
+              }<br>
+            }<br>
+          }<br>
+          <br>
+          for (let i = 1; i < n + 1; i++) {<br>
+            for (let j = 1; j < n + 1; j++) {<br>
+              if (s1[i - 1] == s2[j - 1]) {<br>
+                dp[i][j] = 1 + dp[i - 1][j - 1];<br>
+              } <br>
+              else {<br>
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);<br>
+              }<br>
+            }<br>
+          }<br>
+          <br>
+          //return dp[n][m];
+          console.log(dp[n][n]);<br>
+          <br>
+          let ans = "";<br>
+          let i = n;<br>
+          let j = n;<br>
+          while (i > 0 && j > 0) {<br>
+            if (s1[i - 1] === s2[j - 1]) {<br>
+              ans += s1[i - 1];<br>
+              i--;<br>
+              j--;<br>
+            } else if (dp[i - 1][j] > dp[i][j - 1]) {<br>
+              i--;<br>
+            } else {<br>
+              j--;<br>
+            }<br>
+          }<br>
+          <br>
+          ans = reverseString(ans);<br>
+          return ans;<br>
+        }<br>
+        <br>
+        function longestPalindromicSubsequence(seq) {<br>
+          let n = seq.length;<br>
+          <br>
+          let word = LCS(seq);<br>
+          // console.log(word);<br>
+          return word;<br>
+        }<br>
+        <br>
+       
+      </div>
+      <h2>OUTPUT: </h2>
+      <h3 id="subdis"></h3>
+      
+
+    </div>
+
+    <div id="container">
+      <h2>Lonngest length of zeroes in bitsream </h2> 
+      <div class="text" style="font-weight:100">
+        // Time complexity :O(n) <br>
+        // space complexity :O(1); <br>
+<br>
+        var longestStreakofZeroes= function (s) {<br>
+          <br>
+          let count=0;<br>
+          let start=0;<br>
+          let maximum=-1;<br>
+          let f=false; <br>
+          for(let i=0;i< s.length;i++){ <br>
+              if(s[i]==='0'){ <br>
+                  count++; <br>
+                  f=true; <br>
+              }  <br>
+              else{ <br>
+                  count=0; <br>
+              } <br>
+              if(count>maximum){ <br>
+                  maximum=count; <br>
+                  start=i; <br>
+              }  <br>
+          } <br>
+          let res=[start,maximum]; <br>
+    return res; <br>
+    <br>
+        }<br>
+        <br>
+       </div>
+        <h2>OUTPUT: </h2>
+      <h3 id="subdisz"></h3> 
+      
+     
+     
+    </div>
+
+    <script src="index.js"></script> 
+    <script src="color.js"></script> 
+ 
+    <script src="ind.js"></script> 
+
+
+  </body>
+
+
+
+  </html>
